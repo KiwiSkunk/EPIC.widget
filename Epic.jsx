@@ -64,7 +64,7 @@ export const render = ({ output }, refreshFrequency ) => {
   const commandValues = output.split("++");
   const imageCaption = commandValues[0];
   const date = commandValues[1];
-  const image = commandValues[];
+  const image = commandValues[2];
 
   return (
     <div className='background'>
