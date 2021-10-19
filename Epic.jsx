@@ -1,32 +1,31 @@
-import { React, run, css} from 'uebersicht'
+import { React } from 'uebersicht';
 
-// ***************** OPTION ******************
-export const durationMs = 3600 * 1000 // duration with miliseconds
-export const width = 1920
-export const height = 1200
-export const colour = 888
-export const captionWidth = 800
-export const margin = Math.floor((width - captionWidth) / 2)
-export const dock = 90
-export const folderName = 'epic-view.widget' // name of the folder this is in (path = ~/Library/Application Support/Übersicht/widgets/"folderName"/)
-// ***************** OPTION ******************
-
-export const num = Math.floor(Math.random() * 10); // force update of image
-export const download = `export LANG=en_NZ.UTF-8; '/opt/homebrew/bin/python3' '` + folderName + `/epic.py'`
-export const initialState = {
-  output: null
-}
+// ***************** OPTIONS ******************
+export const folder = "/APOD/"
+export const durationMs = 60 * 60 * 1000 // duration with milliseconds
+export const width = 2560 // your screen width
+export const height = 1440 // your screen height
+export const dock = 90 // height of your dock - so the caption will clear it
+export const colour = "000000" // background colour
+export const captionWidth = Math.floor(width * .7)
+export const margin = Math.floor((width - captionWidth) / 2) - 20
+export const ESToffset = -18 // get the hours offset for EST in the US.
+export const apiKey = "vtFnldwWzZbyZDNdiVv4fJIgETyIdZzvTwIg4D3U" // get your api key at api.nasa.govt
+export const imageOut = "imgfit.jpg"
+// **************END OPTIONS ******************
 export const refreshFrequency = durationMs;
-export const command = download;
+export const initialState = { output: "\nLoading\n\nCopyright: Skunkworks\n2021\nwww.skunkworks.net.nz\n" };
+export const num = Math.floor(Math.random() * 10000); // force update of image
+export const stamp = Date() // force image refresh
+
 export const className = `
   .background {
+    position: absolute;
     top: 0px;
     left: 0px;
     width: ${width}px;
     height: ${height}px;
-    color: #${colour};
-    z-index: -1;
-    background: url(/epic-view.widget/imgfit.png?ver=${num});
+    z-index: 0;
   }
   .caption {
     position: absolute;
@@ -41,16 +40,39 @@ export const className = `
     text-align: center;
     padding: 20px;
     color: #fff;
-    background: rgba(125, 125, 125, 0.4);
+    background: rgba(000, 000, 000, 0.5);
     border-radius: 5px;
+    z-index: 1;
+  }
+  a:link, a:visited {
+    color: #fff;
+    text-decoration: none;
+  }
+  .videoBox {
+    position: absolute;
+    margin-left: ${margin}px;
+    width: ${captionWidth}px;
+    height: ${videoHeight}px;
   }
 `
-export const render = ({output, error}) => {
-  return error ? (
-    <div>Something went wrong: <strong>{String(error)}</strong></div>
-    ) : (
-    <div class='background'>
-    <div class='caption'>{output}</div>
+
+// call the shell script that does the work
+export const command = "bash ${HOME}/Library/Application\\ Support/Übersicht/widgets"+folder+"epic.sh "+folder+" "+width+" "+height+" "+dock+" "+colour+" "+ESToffset+" "+apiKey+" "+imageOut
+
+export const render = ({ output }, refreshFrequency ) => {
+  console.log(output);
+  const commandValues = output.split("++");
+  const imageCaption = commandValues[0];
+  const date = commandValues[1];
+  const image = commandValues[];
+
+  return (
+    <div className='background'>
+      <div className="videoBox" >
+        <iframe width="100%" height="100%" src={videourl} frameBorder="0" ></iframe>
+      </div>
+      <img src={image} />
+      <div className='caption'>{imageCaption}<br /> {date}</div>
     </div>
-    );
+  );
 };
