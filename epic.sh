@@ -13,16 +13,6 @@ apikey=$7
 imageOut=$8
 style=$9
 # ***************** EXTRAS ******************
-# Testing rewrite of variables
-folderName="/EPIC/"
-maxwidth=1440
-maxheight=900
-dockH=75
-colour="000000"
-today=$(date -v -17H +"%Y-%m-%d")
-apiKey="vtFnldwWzZbyZDNdiVv4fJIgETyIdZzvTwIg4D3U"
-imageOut="imgfit.jpg"
-style="natural"
 
 epicFull=epicFull.jpg
 
