@@ -19,18 +19,11 @@ epicFull=epicFull.jpg
 cd "${HOME}/Library/Application Support/Übersicht/widgets$folderName" || exit
 
 # build download link
-epicURL="https://api.nasa.gov/EPIC/api/${style}/images?api_key=${apikey}"
+epicURL=("https://api.nasa.gov/EPIC/api/${style}/images?api_key=${apikey}")
+epicURL="https://api.nasa.gov/EPIC/api/natural?api_key=vtFnldwWzZbyZDNdiVv4fJIgETyIdZzvTwIg4D3U"
 
 # download the 'json' text
 curl ${epicURL} -o 'epic.json' -ks
-
-# find the text for hdurl
-regex="(?:\"image\":\")(.*?)(?:\")" # minor change to this would make this give groups - but groups aren't avalible in bash
-imageurlsection="$(grep -oiE "${regex}" epic.json)" 
-# so we do more to get the required part
-capture="$(cut -d ':' -f3 <<<${imageurlsection})"
-IFS="\"" read -ra imageurl <<<${capture}
-hdURL="https://epic.gsfc.nasa.gov/archive/${style}/${date}/png/${imageurl[0]}.png"
 
 # find the text for caption
 regex2="(?:\"caption\":\")(.*?)(?:\",)" #note the differce here
@@ -46,10 +39,19 @@ capture="$(cut -d ':' -f2 <<<${datesection})"
 IFS="\"" read -ra date <<<${capture}
 # date=${date%??} # remove last two characters
 
+# find the text for hdurl
+regex="(?:\"image\":\")(.*?)(?:\")" # minor change to this would make this give groups - but groups aren't avalible in bash
+imageurlsection="$(grep -oiE "${regex}" epic.json)" 
+# so we do more to get the required part
+capture="$(cut -d ':' -f3 <<<${imageurlsection})"
+IFS="\"" read -ra imageurl <<<${capture}
+hdURL="https://epic.gsfc.nasa.gov/archive/${style}/${date}/png/${imageurl[0]}.png"
+hdURL="https://api.nasa.gov/EPIC/archive/natural/2019/05/30/png/epic_1b_20190530011359.png?api_key=DEMO_KEY"
+
 # pass data back to React
 if [ ! -s epic.json ]; then
     # we could write the last ouput to disk and read it back but I don't see the point.
-    output="EPIC Image++Display the image of the day on your desktop++Skunkworks Group Ltd++2021++++http:www.skunkworks.net.nz++${folderName}${imageOut}" # this is nonsense but passes something back to process
+    output="EPIC Image++Display the image of the day on your desktop++Skunkworks Group Ltd 2021 http//:www.skunkworks.net.nz" # this is nonsense but passes something back to process
 else
     # lets get the image and process it...
     curl -o ${epicFull} ${hdURL} -ks

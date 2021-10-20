@@ -1,10 +1,10 @@
 import { React } from 'uebersicht';
 
 // ***************** OPTIONS ******************
-export const folder = "/APOD/"
+export const folder = "/EPIC/"
 export const durationMs = 60 * 60 * 1000 // duration with milliseconds
-export const width = 2560 // your screen width
-export const height = 1440 // your screen height
+export const width = 1920 // your screen width
+export const height = 1200 // your screen height
 export const dock = 90 // height of your dock - so the caption will clear it
 export const colour = "000000" // background colour
 export const captionWidth = Math.floor(width * .7)
@@ -12,6 +12,7 @@ export const margin = Math.floor((width - captionWidth) / 2) - 20
 export const ESToffset = -18 // get the hours offset for EST in the US.
 export const apiKey = "vtFnldwWzZbyZDNdiVv4fJIgETyIdZzvTwIg4D3U" // get your api key at api.nasa.govt
 export const imageOut = "imgfit.jpg"
+export const style = "natural"
 // **************END OPTIONS ******************
 export const refreshFrequency = durationMs;
 export const initialState = { output: "\nLoading\n\nCopyright: Skunkworks\n2021\nwww.skunkworks.net.nz\n" };
@@ -48,16 +49,10 @@ export const className = `
     color: #fff;
     text-decoration: none;
   }
-  .videoBox {
-    position: absolute;
-    margin-left: ${margin}px;
-    width: ${captionWidth}px;
-    height: ${videoHeight}px;
-  }
 `
 
 // call the shell script that does the work
-export const command = "bash ${HOME}/Library/Application\\ Support/Übersicht/widgets"+folder+"epic.sh "+folder+" "+width+" "+height+" "+dock+" "+colour+" "+ESToffset+" "+apiKey+" "+imageOut
+export const command = "bash ${HOME}/Library/Application\\ Support/Übersicht/widgets"+folder+"epic.sh "+folder+" "+width+" "+height+" "+dock+" "+colour+" "+ESToffset+" "+apiKey+" "+imageOut+" "+style+" "
 
 export const render = ({ output }, refreshFrequency ) => {
   console.log(output);
@@ -68,9 +63,6 @@ export const render = ({ output }, refreshFrequency ) => {
 
   return (
     <div className='background'>
-      <div className="videoBox" >
-        <iframe width="100%" height="100%" src={videourl} frameBorder="0" ></iframe>
-      </div>
       <img src={image} />
       <div className='caption'>{imageCaption}<br /> {date}</div>
     </div>
