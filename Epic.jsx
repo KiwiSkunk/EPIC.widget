@@ -3,9 +3,9 @@ import { React } from 'uebersicht';
 // ***************** OPTIONS ******************
 export const folder = "/EPIC/"
 export const durationMs = 60 * 60 * 1000 // duration with milliseconds
-export const width = 1920 // your screen width
-export const height = 1200 // your screen height
-export const dock = 90 // height of your dock - so the caption will clear it
+export const width = 1440 // your screen width
+export const height = 900 // your screen height
+export const dock = 75 // height of your dock - so the caption will clear it
 export const colour = "000000" // background colour
 export const captionWidth = Math.floor(width * .7)
 export const margin = Math.floor((width - captionWidth) / 2) - 20
@@ -15,7 +15,7 @@ export const imageOut = "imgfit.jpg"
 export const style = "natural"
 // **************END OPTIONS ******************
 export const refreshFrequency = durationMs;
-export const initialState = { output: "\nLoading\n\nCopyright: Skunkworks\n2021\nwww.skunkworks.net.nz\n" };
+export const initialState = { output: "Loading EPIC image of the day...++Copyright: Skunkworks 2021" };
 export const num = Math.floor(Math.random() * 10000); // force update of image
 export const stamp = Date() // force image refresh
 
